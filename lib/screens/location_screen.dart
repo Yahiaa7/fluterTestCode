@@ -2,11 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key});
+  final Position position;
+  const LocationScreen({super.key, required this.position});
 
   @override
   LocationScreenState createState() => LocationScreenState();
@@ -15,6 +17,7 @@ class LocationScreen extends StatefulWidget {
 class LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
+    print(widget.position);
     return Scaffold(
       body: Stack(
         children: [

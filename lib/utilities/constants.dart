@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const kTempTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
-  fontSize: 100.0,
+  fontSize: 50,
   letterSpacing: 14,
 );
 
@@ -20,3 +20,5 @@ const kConditionTextStyle = TextStyle(
   fontSize: 100.0,
 );
 const kSecondaryColor = Color(0xff74cace);
+
+const kApiKey = 'f716a43596a928023a827e6beeb88596';

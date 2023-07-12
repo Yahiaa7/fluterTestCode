@@ -3,21 +3,35 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/services/weather.dart';
 
+import '../services/location.dart';
 import '../utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
-  final Position position;
-  const LocationScreen({super.key, required this.position});
+  final WeatherModel weatherData;
+  const LocationScreen({super.key, required this.weatherData});
 
   @override
   LocationScreenState createState() => LocationScreenState();
 }
 
 class LocationScreenState extends State<LocationScreen> {
+  late int temp;
+  late String cityName;
+  late String icon;
+  late String description;
+  @override
+  void initState() {
+    temp = widget.weatherData.temp.toInt();
+    cityName = widget.weatherData.name;
+    icon = widget.weatherData.getWeatherIcon();
+    description = widget.weatherData.getMessage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(widget.position);
     return Scaffold(
       body: Stack(
         children: [
@@ -78,16 +92,13 @@ class LocationScreenState extends State<LocationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Icon(
-                      FontAwesomeIcons.cloudSun,
-                      size: 120,
-                    ),
+                    Text('$icon'),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        const Text(
-                          '32',
+                        Text(
+                          '$temp',
                           style: kTempTextStyle,
                         ),
                         Column(
@@ -129,10 +140,10 @@ class LocationScreenState extends State<LocationScreen> {
                   ],
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(right: 24.0),
                 child: Text(
-                  "It's 🥶 in gaza! Dress 🧤🧣",
+                  '$description',
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),

@@ -1,32 +1,36 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/services/weather.dart';
+import 'package:weather_app/Model/weatherModel.dart';
 
-import '../services/location.dart';
+import '../Model/weather.dart';
 import '../utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
-  final WeatherModel weatherData;
-  const LocationScreen({super.key, required this.weatherData});
-
+  const LocationScreen({super.key, required this.weather_info});
+  final WeatherModel weather_info;
   @override
   LocationScreenState createState() => LocationScreenState();
 }
 
 class LocationScreenState extends State<LocationScreen> {
-  late int temp;
-  late String cityName;
-  late String icon;
-  late String description;
+  int? temp;
+  String? name;
+  int? weatherId;
+  String? message;
+  String? icon;
+  fetchweather_info() async {
+    Weather_Model? weather_model = await widget.weather_info.getModelData();
+    temp = weather_model?.main.temp.toInt();
+    name = weather_model?.name;
+    weatherId = weather_model?.weather[0].id;
+    //   icon=weather_model.
+  }
+
   @override
   void initState() {
-    temp = widget.weatherData.temp.toInt();
-    cityName = widget.weatherData.name;
-    icon = widget.weatherData.getWeatherIcon();
-    description = widget.weatherData.getMessage();
+    fetchweather_info();
+
     super.initState();
   }
 
@@ -92,13 +96,13 @@ class LocationScreenState extends State<LocationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('$icon'),
+                    Text("icon!,"),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          '$temp',
+                          "$temp",
                           style: kTempTextStyle,
                         ),
                         Column(
@@ -143,7 +147,7 @@ class LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 24.0),
                 child: Text(
-                  '$description',
+                  message!,
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
@@ -156,7 +160,7 @@ class LocationScreenState extends State<LocationScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.1),
                     ),
-                    child: Text('fffffmmmmmmm'),
+                    child: null,
                   ),
                 ),
               ),

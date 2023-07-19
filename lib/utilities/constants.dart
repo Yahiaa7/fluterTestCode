@@ -21,4 +21,4 @@ const kConditionTextStyle = TextStyle(
 );
 const kSecondaryColor = Color(0xff74cace);
 
-const kApiKey = 'f716a43596a928023a827e6beeb88596';
+const kApiKey = '84dabff087ddc4e99575e9d1ce0d9948';

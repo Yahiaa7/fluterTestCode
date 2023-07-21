@@ -14,8 +14,8 @@ class NetworkHelper {
   Future<Weather_Model> getData() async {
     http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      Weather_Model JsonDecode =
-          jsonDecode(response.body); /*convert string body (response) to json*/
+      Weather_Model JsonDecode = weatherModelFromJson(
+          response.body); /*convert string body (response) to WeatherModel*/
       // print(response.body);
       return JsonDecode; /*return and the return type is json*/
     }

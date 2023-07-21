@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:weather_app/services/networking.dart';
+import 'package:weather_app/Model/fetch_locatio_data.dart';
+
 import '../Model/weatherModel.dart';
-import '../services/location.dart';
-import '../Model/weather.dart';
-import '../utilities/constants.dart';
 import 'location_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -18,16 +13,17 @@ class LoadingScreen extends StatefulWidget {
 
 class LoadingScreenState extends State<LoadingScreen> {
   getWeatherData() async {
-    WeatherModel weatherModel = WeatherModel();
-    // await weatherModel.getCurrentLocation();
+    FetchLocationData fetchLocationData = FetchLocationData();
+
+    Weather_Model weatherModel = await fetchLocationData.getCurrentLocation();
 
     if (mounted) {
-      /*if we in the widget execute the widget and we use it before set State */
+      /*if we in the widget execute the widget and we use it before set State to interrupts what become after them  */
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  LocationScreen(weather_info: weatherModel)));
+                  LocationScreen(weatherModel: weatherModel)));
     }
   }
 

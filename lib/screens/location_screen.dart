@@ -1,38 +1,49 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:weather_app/Model/weather.dart';
 import 'package:weather_app/Model/weatherModel.dart';
 
-import '../Model/weather.dart';
 import '../utilities/constants.dart';
+import 'city_screen.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key, required this.weather_info});
-  final WeatherModel weather_info;
+  final bool selectedCity;
+  late Weather_Model weatherModel;
+
+  LocationScreen({super.key, required this.weatherModel});
+
   @override
   LocationScreenState createState() => LocationScreenState();
 }
 
 class LocationScreenState extends State<LocationScreen> {
-  int? temp;
-  String? name;
-  int? weatherId;
-  String? message;
-  String? icon;
-  fetchweather_info() async {
-    Weather_Model? weather_model = await widget.weather_info.getModelData();
-    temp = weather_model?.main.temp.toInt();
-    name = weather_model?.name;
-    weatherId = weather_model?.weather[0].id;
-    //   icon=weather_model.
-  }
+  // late Weather_Model cityLocation;
+  //
+  // late Weather_Model selectedWeather = widget.weatherModel;
+  // void getWeather() {
+  //   if (widget.selectedCity == true) {
+  //     selectedWeather = widget.weatherCityModel;
+  //   } else {
+  //     selectedWeather = widget.weatherModel;
+  //   }
+  // }
 
   @override
   void initState() {
-    fetchweather_info();
+    // fetchweather_info();
 
     super.initState();
   }
+
+  // Navogation(BuildContext context) async {
+  //   List isSelectdWeather = await
+  //   if (isSelectdWeather[1] == false) {
+  //     selsectedWeather = widget.weatherModel;
+  //   } else {
+  //     selsectedWeather = cityLocation;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +92,13 @@ class LocationScreenState extends State<LocationScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CityScreen(
+                                    weathermodel: widget.weatherModel)));
+                      },
                       child: const Icon(
                         Icons.location_city,
                         size: 50.0,
@@ -96,13 +113,14 @@ class LocationScreenState extends State<LocationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("icon!,"),
+                    Text(WeatherModel()
+                        .getWeatherIcon(id: selectedWeather.weather[0].id)),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          "$temp",
+                          "${selectedWeather.main.temp}",
                           style: kTempTextStyle,
                         ),
                         Column(
@@ -145,25 +163,16 @@ class LocationScreenState extends State<LocationScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: 24.0),
+                padding: const EdgeInsets.only(right: 24.0),
                 child: Text(
-                  message!,
+                  WeatherModel().getMessage(temp: selectedWeather.main.temp),
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
               ),
-              ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                  child: Container(
-                    padding: EdgeInsets.all(34),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.1),
-                    ),
-                    child: null,
-                  ),
-                ),
-              ),
+              const SizedBox(
+                height: 24,
+              )
             ],
           ),
         ],

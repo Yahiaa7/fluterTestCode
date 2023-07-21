@@ -14,15 +14,15 @@ class Weather_Model {
   List<Weather> weather;
   String base;
   Main main;
-  int visibility;
+  int? visibility;
   Wind wind;
   Clouds clouds;
-  int dt;
+  int? dt;
   Sys sys;
-  int timezone;
-  int id;
+  int? timezone;
+  int? id;
   String name;
-  int cod;
+  int? cod;
 
   Weather_Model({
     required this.coord,
@@ -75,7 +75,7 @@ class Weather_Model {
 }
 
 class Clouds {
-  int all;
+  int? all;
 
   Clouds({
     required this.all,
@@ -115,10 +115,10 @@ class Main {
   double feelsLike;
   double tempMin;
   double tempMax;
-  int pressure;
-  int humidity;
-  int seaLevel;
-  int grndLevel;
+  int? pressure;
+  int? humidity;
+  int? seaLevel;
+  int? grndLevel;
 
   Main({
     required this.temp,
@@ -155,11 +155,11 @@ class Main {
 }
 
 class Sys {
-  int type;
-  int id;
+  int? type;
+  int? id;
   String country;
-  int sunrise;
-  int sunset;
+  int? sunrise;
+  int? sunset;
 
   Sys({
     required this.type,
@@ -216,7 +216,7 @@ class Weather {
 
 class Wind {
   double speed;
-  int deg;
+  int? deg;
   double gust;
 
   Wind({

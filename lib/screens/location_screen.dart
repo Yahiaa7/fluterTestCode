@@ -8,7 +8,6 @@ import '../utilities/constants.dart';
 import 'city_screen.dart';
 
 class LocationScreen extends StatefulWidget {
-  final bool selectedCity;
   late Weather_Model weatherModel;
 
   LocationScreen({super.key, required this.weatherModel});
@@ -19,7 +18,7 @@ class LocationScreen extends StatefulWidget {
 
 class LocationScreenState extends State<LocationScreen> {
   // late Weather_Model cityLocation;
-  //
+  //  final bool selectedCity;
   // late Weather_Model selectedWeather = widget.weatherModel;
   // void getWeather() {
   //   if (widget.selectedCity == true) {
@@ -114,13 +113,13 @@ class LocationScreenState extends State<LocationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(WeatherModel()
-                        .getWeatherIcon(id: selectedWeather.weather[0].id)),
+                        .getWeatherIcon(id: widget.weatherModel.weather[0].id)),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          "${selectedWeather.main.temp}",
+                          "${widget.weatherModel.main.temp}",
                           style: kTempTextStyle,
                         ),
                         Column(
@@ -165,7 +164,8 @@ class LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 24.0),
                 child: Text(
-                  WeatherModel().getMessage(temp: selectedWeather.main.temp),
+                  WeatherModel()
+                      .getMessage(temp: widget.weatherModel.main.temp),
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),

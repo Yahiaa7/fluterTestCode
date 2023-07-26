@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/Model/weather.dart';
 import 'package:weather_app/Model/weatherModel.dart';
 
+import '../services/networking.dart';
 import '../utilities/constants.dart';
 import 'city_screen.dart';
 
@@ -91,12 +93,22 @@ class LocationScreenState extends State<LocationScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CityScreen(
-                                    weathermodel: widget.weatherModel)));
+                      onPressed: () async {
+                        // Old Code
+                        // final result = await Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => CityScreen(
+                        //             weathermodel: widget.weatherModel)));
+                        // // widget.weatherModel = result[1];
+                        // print(result);
+                        // setState(() {
+                        //   widget.weatherModel = result[1];
+                        //   print(widget.weatherModel.name);
+                        // });
+
+                        //  New Code
+                        myCountryPicker(context);
                       },
                       child: const Icon(
                         Icons.location_city,
@@ -176,6 +188,53 @@ class LocationScreenState extends State<LocationScreen> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  void myCountryPicker(BuildContext context) {
+    return showCountryPicker(
+      context: context,
+      //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+      exclude: <String>['KN', 'MF'],
+      favorite: <String>['SE'],
+      //Optional. Shows phone code before the country name.
+      showPhoneCode: true,
+      onSelect: (Country country) async {
+        print('Select country: ${country.displayName}');
+        //TODO:
+        NetworkHelper networkHelper = NetworkHelper(
+            url:
+                "https://api.openweathermap.org/data/2.5/weather?q=${country.name}&appid=${kApiKey}&units=metric");
+
+        () async {
+          widget.weatherModel = await networkHelper.getData();
+          setState(() {});
+        }();
+      },
+      // Optional. Sets the theme for the country list picker.
+      countryListTheme: CountryListThemeData(
+        // Optional. Sets the border radius for the bottomsheet.
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(40.0),
+          topRight: Radius.circular(40.0),
+        ),
+        // Optional. Styles the search field.
+        inputDecoration: InputDecoration(
+          labelText: 'Search',
+          hintText: 'Start typing to search',
+          prefixIcon: const Icon(Icons.search),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: const Color(0xFF8C98A8).withOpacity(0.2),
+            ),
+          ),
+        ),
+        // Optional. Styles the text in the search field
+        searchTextStyle: const TextStyle(
+          color: Colors.blue,
+          fontSize: 18,
+        ),
       ),
     );
   }
